@@ -236,6 +236,29 @@ namespace KNN
                 this.sciezkaPliku.Text = sciezka;
             }
         }
-                
+
+        private void argument1_TextChanged(object sender, EventArgs e)
+        {
+            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
+                this.wprowadzArgumentyBtn.Enabled = true;
+       }
+
+        private void argument2_TextChanged(object sender, EventArgs e)
+        {
+            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
+                this.wprowadzArgumentyBtn.Enabled = true;
+        }
+
+        private void argument3_TextChanged(object sender, EventArgs e)
+        {
+            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
+                this.wprowadzArgumentyBtn.Enabled = true;
+        }
+
+        private void argument4_TextChanged(object sender, EventArgs e)
+        {
+            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
+                this.wprowadzArgumentyBtn.Enabled = true;
+        }
     }
 }

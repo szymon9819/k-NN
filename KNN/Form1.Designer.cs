@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.argument1 = new System.Windows.Forms.TextBox();
             this.argument2 = new System.Windows.Forms.TextBox();
             this.argument3 = new System.Windows.Forms.TextBox();
@@ -60,6 +60,7 @@
             this.argument1.Name = "argument1";
             this.argument1.Size = new System.Drawing.Size(44, 22);
             this.argument1.TabIndex = 0;
+            this.argument1.TextChanged += new System.EventHandler(this.argument1_TextChanged);
             this.argument1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.argument1_KeyPress);
             // 
             // argument2
@@ -69,6 +70,7 @@
             this.argument2.Name = "argument2";
             this.argument2.Size = new System.Drawing.Size(44, 22);
             this.argument2.TabIndex = 1;
+            this.argument2.TextChanged += new System.EventHandler(this.argument2_TextChanged);
             this.argument2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.argument2_KeyPress);
             // 
             // argument3
@@ -78,6 +80,7 @@
             this.argument3.Name = "argument3";
             this.argument3.Size = new System.Drawing.Size(44, 22);
             this.argument3.TabIndex = 2;
+            this.argument3.TextChanged += new System.EventHandler(this.argument3_TextChanged);
             this.argument3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.argument3_KeyPress);
             // 
             // argument4
@@ -87,11 +90,13 @@
             this.argument4.Name = "argument4";
             this.argument4.Size = new System.Drawing.Size(44, 22);
             this.argument4.TabIndex = 3;
+            this.argument4.TextChanged += new System.EventHandler(this.argument4_TextChanged);
             this.argument4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.argument4_KeyPress);
             // 
             // wprowadzArgumentyBtn
             // 
             this.wprowadzArgumentyBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
+            this.wprowadzArgumentyBtn.Enabled = false;
             this.wprowadzArgumentyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.wprowadzArgumentyBtn.ForeColor = System.Drawing.Color.White;
             this.wprowadzArgumentyBtn.Location = new System.Drawing.Point(276, 358);
@@ -111,7 +116,7 @@
             this.label1.Location = new System.Drawing.Point(16, 332);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 20);
+            this.label1.Size = new System.Drawing.Size(232, 25);
             this.label1.TabIndex = 5;
             this.label1.Text = "Wprowadź dane probki";
             // 
@@ -130,7 +135,7 @@
             this.label2.Location = new System.Drawing.Point(17, 9);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(328, 16);
+            this.label2.Size = new System.Drawing.Size(340, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Podaj sciezke do pliku ze sklasyfikowanymi próbkami";
             // 
@@ -171,7 +176,7 @@
             this.klasyfikujLabel.ForeColor = System.Drawing.Color.White;
             this.klasyfikujLabel.Location = new System.Drawing.Point(439, 669);
             this.klasyfikujLabel.Name = "klasyfikujLabel";
-            this.klasyfikujLabel.Size = new System.Drawing.Size(51, 20);
+            this.klasyfikujLabel.Size = new System.Drawing.Size(66, 25);
             this.klasyfikujLabel.TabIndex = 12;
             this.klasyfikujLabel.Text = "Klasa";
             // 
@@ -182,26 +187,27 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(12, 62);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(214, 25);
+            this.label3.Size = new System.Drawing.Size(268, 31);
             this.label3.TabIndex = 13;
             this.label3.Text = "Wprowadzone próbki";
             // 
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(33)))), ((int)(((byte)(43)))));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(34)))), ((int)(((byte)(50)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(34)))), ((int)(((byte)(50)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(17, 98);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(739, 209);
             this.dataGridView1.TabIndex = 14;
@@ -215,7 +221,7 @@
             this.radioManhattan.Location = new System.Drawing.Point(36, 454);
             this.radioManhattan.Margin = new System.Windows.Forms.Padding(4);
             this.radioManhattan.Name = "radioManhattan";
-            this.radioManhattan.Size = new System.Drawing.Size(92, 20);
+            this.radioManhattan.Size = new System.Drawing.Size(111, 24);
             this.radioManhattan.TabIndex = 15;
             this.radioManhattan.TabStop = true;
             this.radioManhattan.Text = "Manhhatan";
@@ -229,7 +235,7 @@
             this.radioEuklidesowa.Location = new System.Drawing.Point(36, 486);
             this.radioEuklidesowa.Margin = new System.Windows.Forms.Padding(4);
             this.radioEuklidesowa.Name = "radioEuklidesowa";
-            this.radioEuklidesowa.Size = new System.Drawing.Size(103, 20);
+            this.radioEuklidesowa.Size = new System.Drawing.Size(119, 24);
             this.radioEuklidesowa.TabIndex = 16;
             this.radioEuklidesowa.Text = "Euklidesowa";
             this.radioEuklidesowa.UseVisualStyleBackColor = true;
@@ -242,7 +248,7 @@
             this.radioCzebyszewa.Location = new System.Drawing.Point(36, 518);
             this.radioCzebyszewa.Margin = new System.Windows.Forms.Padding(4);
             this.radioCzebyszewa.Name = "radioCzebyszewa";
-            this.radioCzebyszewa.Size = new System.Drawing.Size(102, 20);
+            this.radioCzebyszewa.Size = new System.Drawing.Size(119, 24);
             this.radioCzebyszewa.TabIndex = 17;
             this.radioCzebyszewa.Text = "Czebyszewa";
             this.radioCzebyszewa.UseVisualStyleBackColor = true;
@@ -255,7 +261,7 @@
             this.radioMinkowskiego.Location = new System.Drawing.Point(36, 550);
             this.radioMinkowskiego.Margin = new System.Windows.Forms.Padding(4);
             this.radioMinkowskiego.Name = "radioMinkowskiego";
-            this.radioMinkowskiego.Size = new System.Drawing.Size(112, 20);
+            this.radioMinkowskiego.Size = new System.Drawing.Size(129, 24);
             this.radioMinkowskiego.TabIndex = 18;
             this.radioMinkowskiego.Text = "Minkowskiego";
             this.radioMinkowskiego.UseVisualStyleBackColor = true;
@@ -268,7 +274,7 @@
             this.radioLogarytmem.Location = new System.Drawing.Point(36, 582);
             this.radioLogarytmem.Margin = new System.Windows.Forms.Padding(4);
             this.radioLogarytmem.Name = "radioLogarytmem";
-            this.radioLogarytmem.Size = new System.Drawing.Size(101, 20);
+            this.radioLogarytmem.Size = new System.Drawing.Size(118, 24);
             this.radioLogarytmem.TabIndex = 19;
             this.radioLogarytmem.Text = "Logarytmem";
             this.radioLogarytmem.UseVisualStyleBackColor = true;
@@ -281,7 +287,7 @@
             this.label4.Location = new System.Drawing.Point(16, 426);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 20);
+            this.label4.Size = new System.Drawing.Size(172, 25);
             this.label4.TabIndex = 20;
             this.label4.Text = "Wybierz metryke";
             // 

@@ -8,3 +8,7 @@ C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.csproj.GenerateResource.cache
 C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.csproj.CoreCompileInputs.cache
 C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.exe
 C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.pdb
+C:\Users\szymo\source\repos\KNN\KNN\bin\Debug\KNN.exe.manifest
+C:\Users\szymo\source\repos\KNN\KNN\bin\Debug\KNN.application
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.exe.manifest
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.application
