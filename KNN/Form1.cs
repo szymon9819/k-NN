@@ -45,11 +45,13 @@ namespace KNN
         }
 
         private void wprowadzArgumentyBtn_Click(object sender, EventArgs e)
-        {            
+        {
+            wprowadzonaProbka.Clear();
             wprowadzonaProbka.Add(double.Parse(argument1.Text));
-            wprowadzonaProbka.Add(double.Parse(argument4.Text));
-            wprowadzonaProbka.Add(double.Parse(argument3.Text));
             wprowadzonaProbka.Add(double.Parse(argument2.Text));
+            wprowadzonaProbka.Add(double.Parse(argument3.Text));
+            wprowadzonaProbka.Add(double.Parse(argument4.Text));
+            Console.WriteLine(argument1.Text + argument2.Text +argument3.Text+argument4.Text);
             
             this.obliczBtn.Enabled = true;
         }
@@ -237,28 +239,38 @@ namespace KNN
             }
         }
 
+
+        //aktywowanie przycisku po wpisaniu argumentów
         private void argument1_TextChanged(object sender, EventArgs e)
         {
             if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
                 this.wprowadzArgumentyBtn.Enabled = true;
-       }
+            else
+                this.wprowadzArgumentyBtn.Enabled = false;
+        }
 
         private void argument2_TextChanged(object sender, EventArgs e)
         {
             if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
                 this.wprowadzArgumentyBtn.Enabled = true;
+            else
+                this.wprowadzArgumentyBtn.Enabled = false;
         }
 
         private void argument3_TextChanged(object sender, EventArgs e)
         {
             if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
                 this.wprowadzArgumentyBtn.Enabled = true;
+            else
+                this.wprowadzArgumentyBtn.Enabled = false;
         }
 
         private void argument4_TextChanged(object sender, EventArgs e)
         {
             if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
                 this.wprowadzArgumentyBtn.Enabled = true;
+            else
+                this.wprowadzArgumentyBtn.Enabled = false;
         }
     }
 }
