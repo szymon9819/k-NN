@@ -1,0 +1,10 @@
+C:\Users\szymo\source\repos\KNN\KNN\bin\Debug\KNN.exe.config
+C:\Users\szymo\source\repos\KNN\KNN\bin\Debug\KNN.exe
+C:\Users\szymo\source\repos\KNN\KNN\bin\Debug\KNN.pdb
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.csprojAssemblyReference.cache
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.Form1.resources
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.Properties.Resources.resources
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.csproj.GenerateResource.cache
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.csproj.CoreCompileInputs.cache
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.exe
+C:\Users\szymo\source\repos\KNN\KNN\obj\Debug\KNN.pdb
