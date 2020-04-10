@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.argument1 = new System.Windows.Forms.TextBox();
             this.argument2 = new System.Windows.Forms.TextBox();
             this.argument3 = new System.Windows.Forms.TextBox();
@@ -50,12 +50,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.obliczBtn = new System.Windows.Forms.Button();
             this.wybierszPlikBtn = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // argument1
             // 
-            this.argument1.Location = new System.Drawing.Point(36, 366);
+            this.argument1.Location = new System.Drawing.Point(33, 408);
             this.argument1.Margin = new System.Windows.Forms.Padding(4);
             this.argument1.Name = "argument1";
             this.argument1.Size = new System.Drawing.Size(44, 22);
@@ -65,7 +66,7 @@
             // 
             // argument2
             // 
-            this.argument2.Location = new System.Drawing.Point(89, 366);
+            this.argument2.Location = new System.Drawing.Point(86, 408);
             this.argument2.Margin = new System.Windows.Forms.Padding(4);
             this.argument2.Name = "argument2";
             this.argument2.Size = new System.Drawing.Size(44, 22);
@@ -75,7 +76,7 @@
             // 
             // argument3
             // 
-            this.argument3.Location = new System.Drawing.Point(143, 366);
+            this.argument3.Location = new System.Drawing.Point(140, 408);
             this.argument3.Margin = new System.Windows.Forms.Padding(4);
             this.argument3.Name = "argument3";
             this.argument3.Size = new System.Drawing.Size(44, 22);
@@ -85,7 +86,7 @@
             // 
             // argument4
             // 
-            this.argument4.Location = new System.Drawing.Point(196, 366);
+            this.argument4.Location = new System.Drawing.Point(193, 408);
             this.argument4.Margin = new System.Windows.Forms.Padding(4);
             this.argument4.Name = "argument4";
             this.argument4.Size = new System.Drawing.Size(44, 22);
@@ -99,7 +100,7 @@
             this.wprowadzArgumentyBtn.Enabled = false;
             this.wprowadzArgumentyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.wprowadzArgumentyBtn.ForeColor = System.Drawing.Color.White;
-            this.wprowadzArgumentyBtn.Location = new System.Drawing.Point(276, 358);
+            this.wprowadzArgumentyBtn.Location = new System.Drawing.Point(273, 398);
             this.wprowadzArgumentyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.wprowadzArgumentyBtn.Name = "wprowadzArgumentyBtn";
             this.wprowadzArgumentyBtn.Size = new System.Drawing.Size(140, 40);
@@ -113,10 +114,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(16, 332);
+            this.label1.Location = new System.Drawing.Point(13, 374);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(232, 25);
+            this.label1.Size = new System.Drawing.Size(179, 20);
             this.label1.TabIndex = 5;
             this.label1.Text = "Wprowadź dane probki";
             // 
@@ -127,6 +128,7 @@
             this.sciezkaPliku.Name = "sciezkaPliku";
             this.sciezkaPliku.Size = new System.Drawing.Size(388, 22);
             this.sciezkaPliku.TabIndex = 6;
+            this.sciezkaPliku.TextChanged += new System.EventHandler(this.sciezkaPliku_TextChanged);
             // 
             // label2
             // 
@@ -135,13 +137,14 @@
             this.label2.Location = new System.Drawing.Point(17, 9);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(340, 17);
+            this.label2.Size = new System.Drawing.Size(331, 16);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Podaj sciezke do pliku ze sklasyfikowanymi próbkami";
+            this.label2.Text = "Podaj sciezke do pliku ze sklasyfikowanymi próbkami.";
             // 
             // wprowadzSciezkePlikuBtn
             // 
             this.wprowadzSciezkePlikuBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(55)))), ((int)(((byte)(107)))));
+            this.wprowadzSciezkePlikuBtn.Enabled = false;
             this.wprowadzSciezkePlikuBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.wprowadzSciezkePlikuBtn.ForeColor = System.Drawing.Color.White;
             this.wprowadzSciezkePlikuBtn.Location = new System.Drawing.Point(601, 21);
@@ -160,7 +163,7 @@
             this.klasyfikujBtn.Enabled = false;
             this.klasyfikujBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.klasyfikujBtn.ForeColor = System.Drawing.Color.White;
-            this.klasyfikujBtn.Location = new System.Drawing.Point(276, 659);
+            this.klasyfikujBtn.Location = new System.Drawing.Point(273, 680);
             this.klasyfikujBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.klasyfikujBtn.Name = "klasyfikujBtn";
             this.klasyfikujBtn.Size = new System.Drawing.Size(140, 40);
@@ -174,9 +177,9 @@
             this.klasyfikujLabel.AutoSize = true;
             this.klasyfikujLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.klasyfikujLabel.ForeColor = System.Drawing.Color.White;
-            this.klasyfikujLabel.Location = new System.Drawing.Point(439, 669);
+            this.klasyfikujLabel.Location = new System.Drawing.Point(439, 690);
             this.klasyfikujLabel.Name = "klasyfikujLabel";
-            this.klasyfikujLabel.Size = new System.Drawing.Size(66, 25);
+            this.klasyfikujLabel.Size = new System.Drawing.Size(51, 20);
             this.klasyfikujLabel.TabIndex = 12;
             this.klasyfikujLabel.Text = "Klasa";
             // 
@@ -185,26 +188,26 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(12, 62);
+            this.label3.Location = new System.Drawing.Point(12, 88);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(268, 31);
+            this.label3.Size = new System.Drawing.Size(214, 25);
             this.label3.TabIndex = 13;
             this.label3.Text = "Wprowadzone próbki";
             // 
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(33)))), ((int)(((byte)(43)))));
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(34)))), ((int)(((byte)(50)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(34)))), ((int)(((byte)(50)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(17, 98);
+            this.dataGridView1.Location = new System.Drawing.Point(17, 124);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
@@ -218,10 +221,10 @@
             this.radioManhattan.Checked = true;
             this.radioManhattan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.radioManhattan.ForeColor = System.Drawing.Color.White;
-            this.radioManhattan.Location = new System.Drawing.Point(36, 454);
+            this.radioManhattan.Location = new System.Drawing.Point(36, 475);
             this.radioManhattan.Margin = new System.Windows.Forms.Padding(4);
             this.radioManhattan.Name = "radioManhattan";
-            this.radioManhattan.Size = new System.Drawing.Size(111, 24);
+            this.radioManhattan.Size = new System.Drawing.Size(92, 20);
             this.radioManhattan.TabIndex = 15;
             this.radioManhattan.TabStop = true;
             this.radioManhattan.Text = "Manhhatan";
@@ -232,10 +235,10 @@
             this.radioEuklidesowa.AutoSize = true;
             this.radioEuklidesowa.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.radioEuklidesowa.ForeColor = System.Drawing.Color.White;
-            this.radioEuklidesowa.Location = new System.Drawing.Point(36, 486);
+            this.radioEuklidesowa.Location = new System.Drawing.Point(36, 507);
             this.radioEuklidesowa.Margin = new System.Windows.Forms.Padding(4);
             this.radioEuklidesowa.Name = "radioEuklidesowa";
-            this.radioEuklidesowa.Size = new System.Drawing.Size(119, 24);
+            this.radioEuklidesowa.Size = new System.Drawing.Size(103, 20);
             this.radioEuklidesowa.TabIndex = 16;
             this.radioEuklidesowa.Text = "Euklidesowa";
             this.radioEuklidesowa.UseVisualStyleBackColor = true;
@@ -245,10 +248,10 @@
             this.radioCzebyszewa.AutoSize = true;
             this.radioCzebyszewa.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.radioCzebyszewa.ForeColor = System.Drawing.Color.White;
-            this.radioCzebyszewa.Location = new System.Drawing.Point(36, 518);
+            this.radioCzebyszewa.Location = new System.Drawing.Point(36, 539);
             this.radioCzebyszewa.Margin = new System.Windows.Forms.Padding(4);
             this.radioCzebyszewa.Name = "radioCzebyszewa";
-            this.radioCzebyszewa.Size = new System.Drawing.Size(119, 24);
+            this.radioCzebyszewa.Size = new System.Drawing.Size(102, 20);
             this.radioCzebyszewa.TabIndex = 17;
             this.radioCzebyszewa.Text = "Czebyszewa";
             this.radioCzebyszewa.UseVisualStyleBackColor = true;
@@ -258,10 +261,10 @@
             this.radioMinkowskiego.AutoSize = true;
             this.radioMinkowskiego.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.radioMinkowskiego.ForeColor = System.Drawing.Color.White;
-            this.radioMinkowskiego.Location = new System.Drawing.Point(36, 550);
+            this.radioMinkowskiego.Location = new System.Drawing.Point(36, 571);
             this.radioMinkowskiego.Margin = new System.Windows.Forms.Padding(4);
             this.radioMinkowskiego.Name = "radioMinkowskiego";
-            this.radioMinkowskiego.Size = new System.Drawing.Size(129, 24);
+            this.radioMinkowskiego.Size = new System.Drawing.Size(112, 20);
             this.radioMinkowskiego.TabIndex = 18;
             this.radioMinkowskiego.Text = "Minkowskiego";
             this.radioMinkowskiego.UseVisualStyleBackColor = true;
@@ -271,10 +274,10 @@
             this.radioLogarytmem.AutoSize = true;
             this.radioLogarytmem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.radioLogarytmem.ForeColor = System.Drawing.Color.White;
-            this.radioLogarytmem.Location = new System.Drawing.Point(36, 582);
+            this.radioLogarytmem.Location = new System.Drawing.Point(36, 603);
             this.radioLogarytmem.Margin = new System.Windows.Forms.Padding(4);
             this.radioLogarytmem.Name = "radioLogarytmem";
-            this.radioLogarytmem.Size = new System.Drawing.Size(118, 24);
+            this.radioLogarytmem.Size = new System.Drawing.Size(101, 20);
             this.radioLogarytmem.TabIndex = 19;
             this.radioLogarytmem.Text = "Logarytmem";
             this.radioLogarytmem.UseVisualStyleBackColor = true;
@@ -284,10 +287,10 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(16, 426);
+            this.label4.Location = new System.Drawing.Point(16, 447);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(172, 25);
+            this.label4.Size = new System.Drawing.Size(134, 20);
             this.label4.TabIndex = 20;
             this.label4.Text = "Wybierz metryke";
             // 
@@ -297,7 +300,7 @@
             this.obliczBtn.Enabled = false;
             this.obliczBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.obliczBtn.ForeColor = System.Drawing.Color.White;
-            this.obliczBtn.Location = new System.Drawing.Point(205, 562);
+            this.obliczBtn.Location = new System.Drawing.Point(193, 583);
             this.obliczBtn.Margin = new System.Windows.Forms.Padding(4);
             this.obliczBtn.Name = "obliczBtn";
             this.obliczBtn.Size = new System.Drawing.Size(178, 40);
@@ -320,13 +323,25 @@
             this.wybierszPlikBtn.UseVisualStyleBackColor = false;
             this.wybierszPlikBtn.Click += new System.EventHandler(this.wybierszPlikBtn_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(17, 62);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(175, 20);
+            this.checkBox1.TabIndex = 23;
+            this.checkBox1.Text = "Czy normalizować probki";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(800, 769);
+            this.ClientSize = new System.Drawing.Size(771, 733);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.wybierszPlikBtn);
             this.Controls.Add(this.obliczBtn);
             this.Controls.Add(this.label4);
@@ -380,6 +395,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button obliczBtn;
         private System.Windows.Forms.Button wybierszPlikBtn;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

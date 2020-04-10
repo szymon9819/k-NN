@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,31 +18,40 @@ namespace KNN
             InitializeComponent();
         }
 
-        Klasyfikator klasyfikator = new Klasyfikator();
-        Metryki metryki = new Metryki();
-        string sciezka = "";
-        //string sciezkaPl = @"C:\Users\szymo\source\repos\ConsoleKNN\iris.txt";
+        Klasyfikator klasyfikator = new Klasyfikator();        
+        string sciezka = "";       
         List<double[]> listaProbekZPliku = new List<double[]>();
         HashSet<double> listaKlasProbkowych = new HashSet<double>();
         List<double> wprowadzonaProbka = new List<double>();
-        int parametr = 3;
+        int parametr = 6;
         Dictionary<double, List<double>> slownikOdleglosci = new Dictionary<double, List<double>>();
         Dictionary<double, double> slownikOdleglowciZParametrem = new Dictionary<double, double>();
-       
+        delegate double M(double[] probkaWzorcowa, List<double> probkaTestowa);
+        M metryka;      
+
+        //zmienne do aktywacji przycisku obliczajacego odległosć
+        bool kliknecie1, klikniecie2 = false;
 
         private void wprowadzSciezkePlikuBtn_Click(object sender, EventArgs e)
         {
             sciezka = this.sciezkaPliku.Text;
             listaProbekZPliku = klasyfikator.wczytajzPliku(sciezka);
+            if (checkBox1.Checked)
+                klasyfikator.normalizuj(listaProbekZPliku);
 
             listaKlasProbkowych = klasyfikator.listaKlasWzorcowych(listaProbekZPliku);
             //dodanie kolumn do tabeli wyswietlajacej dane z pliku
             dodajKolumny(listaProbekZPliku);
             dodajWiersz(listaProbekZPliku);
 
-
             this.wprowadzSciezkePlikuBtn.Enabled = false;
             this.wybierszPlikBtn.Enabled = false;
+            kliknecie1 = true;
+
+            if (kliknecie1 && klikniecie2)
+                this.obliczBtn.Enabled = true;
+
+            this.checkBox1.Enabled = false;
         }
 
         private void wprowadzArgumentyBtn_Click(object sender, EventArgs e)
@@ -51,14 +61,17 @@ namespace KNN
             wprowadzonaProbka.Add(double.Parse(argument2.Text));
             wprowadzonaProbka.Add(double.Parse(argument3.Text));
             wprowadzonaProbka.Add(double.Parse(argument4.Text));
-            Console.WriteLine(argument1.Text + argument2.Text +argument3.Text+argument4.Text);
-            
-            this.obliczBtn.Enabled = true;
+                    
+            klikniecie2 = true;
+
+            if (kliknecie1 && klikniecie2)
+                this.obliczBtn.Enabled = true;
         }
 
         private void obliczBtn_Click(object sender, EventArgs e)
         {
             this.klasyfikujBtn.Enabled = true;
+            
             slownikOdleglosci = utworzSlownikOdleglosci(listaKlasProbkowych, listaProbekZPliku, wprowadzonaProbka);
             foreach (KeyValuePair<double, List<double>> u in slownikOdleglosci)
             {
@@ -74,8 +87,8 @@ namespace KNN
             foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametrem)
             {
                 Console.WriteLine("Klasa = {0} odległosc: {1}", u.Key, u.Value);
-            }
-
+            }            
+             this.klasyfikujBtn.Enabled = true;                     
         }
 
 
@@ -136,25 +149,28 @@ namespace KNN
         {
             Dictionary<double, List<double>> slownikOdleglosci = new Dictionary<double, List<double>>();
 
+            if (this.radioLogarytmem.Checked)
+                metryka = Metryki.metrykaLogarytmem;
+            else if (this.radioCzebyszewa.Checked)
+                metryka = Metryki.metrykaCzebyszewa;
+            else if (this.radioEuklidesowa.Checked)
+                metryka = Metryki.metrykaEuklidesowa;
+            else if (this.radioManhattan.Checked)
+                metryka = Metryki.metrykaManhattan;
+
             foreach (double element in listaKlasProbkowych)
             {
                 //dodanie do słownika klass wzorcowych i pustej listy
                 slownikOdleglosci.Add(element, new List<double>());
                 foreach (double[] tablica in listaElementowOdczytanychZPliku)
                 {
-                    //dodanie do listy klasy odleglosci
+                    //dodanie do słownika odległości względem klasy
                     if (element == tablica[tablica.Length - 1])
-                    {
-                        if(this.radioLogarytmem.Checked)
-                            slownikOdleglosci[element].Add(metryki.metrykaLogarytmem(tablica, probkaTestowa));
-                        else if (this.radioCzebyszewa.Checked)
-                            slownikOdleglosci[element].Add(metryki.metrykaCzebyszewa(tablica, probkaTestowa));
-                        else if (this.radioEuklidesowa.Checked)
-                            slownikOdleglosci[element].Add(metryki.metrykaEuklidesowa(tablica, probkaTestowa));
-                        else if (this.radioManhattan.Checked)
-                            slownikOdleglosci[element].Add(metryki.metrykaManhattan(tablica, probkaTestowa));
-                        else if (this.radioMinkowskiego.Checked)
-                            slownikOdleglosci[element].Add(metryki.metrykaMinkowskiego(tablica, probkaTestowa, 2));//parametr
+                    {                        
+                        if (this.radioMinkowskiego.Checked)
+                            slownikOdleglosci[element].Add(Metryki.metrykaMinkowskiego(tablica, probkaTestowa,3));
+                        else
+                            slownikOdleglosci[element].Add(metryka(tablica, probkaTestowa));
                     }
                 }
                 //posotrowanie listy
@@ -227,13 +243,17 @@ namespace KNN
 
         //wybor pliku za pomocą okienka
         private void wybierszPlikBtn_Click(object sender, EventArgs e)
-        {
-           
+        {           
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Wybierz plik z próbkami";
            
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (Path.GetExtension(openFileDialog.FileName) != ".txt")
+                {
+                    MessageBox.Show("Plik musi być w formacie txt");
+                    return;
+                }
                 sciezka = openFileDialog.FileName;
                 this.sciezkaPliku.Text = sciezka;
             }
@@ -271,6 +291,14 @@ namespace KNN
                 this.wprowadzArgumentyBtn.Enabled = true;
             else
                 this.wprowadzArgumentyBtn.Enabled = false;
+        }     
+
+        private void sciezkaPliku_TextChanged(object sender, EventArgs e)
+        {           
+            if (sciezkaPliku.Text.Trim() == "")
+                this.wprowadzSciezkePlikuBtn.Enabled = false;
+            else
+                this.wprowadzSciezkePlikuBtn.Enabled = true;
         }
     }
 }

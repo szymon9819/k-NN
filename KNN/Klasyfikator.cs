@@ -16,23 +16,73 @@ namespace KNN
             string[] file = File.ReadAllLines(@sciazkaPliku);
             List<double[]> listaProbek = new List<double[]>();
             string[] tmp;
+
+            string test = "1,1";
+            double wynikTestu;
+            bool przecinek = double.TryParse(test, out wynikTestu);
             //petla po wierszach
             foreach (string row in file)
             {
-                //podzielenie wiersza na poszczegolne elementy
-                tmp = row.Split('\t');
+                //podzielenie wiersza na poszczegolne elementy                
+                tmp = row.Trim().Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 double[] pom = new double[tmp.Length];
                 for (int i = 0; i < tmp.Length; i++)
                 {
                     //zmiana . na ,
-                    tmp[i] = tmp[i].Replace(".", ",");
+                    if (przecinek)
+                        tmp[i] = tmp[i].Replace(".", ",");
+                    else
+                        tmp[i] = tmp[i].Replace(",", ".");                  
                     pom[i] = double.Parse(tmp[i]);
                 }
                 listaProbek.Add(pom);
-            }
+            }            
             return listaProbek;
         }
 
+        private double najwiekszyElement(List<double[]> lista, int indeks)
+        {
+            double max = double.MinValue;
+            foreach(double[] element in lista)
+            {
+                if(max < element[indeks])
+                {
+                    max = element[indeks];
+                }
+            }
+            return max;
+        }
+
+        private double najmniejszyElement(List<double[]> lista, int indeks)
+        {
+            double min = double.MaxValue;
+            foreach (double[] element in lista)
+            {
+                if (min > element[indeks])
+                {
+                    min = element[indeks];
+                }
+            }
+            return min;
+        }
+
+        private double norm(double v, double min, double max)
+        {           
+            return (v-min)/(max-min);
+        }
+
+        public void normalizuj(List<double[]> lista)
+        {                      
+            for(int i = 0; i < lista[0].Length - 1; i++)
+            {
+                foreach(var element in lista)
+                {
+                    double min = najmniejszyElement(lista, i);
+                    double max = najwiekszyElement(lista, i);
+                    element[i] = norm(element[i], max, min);                   
+                }
+            }        
+        }
 
         //funkcja zwracająca liste klas wzorcowych
         public HashSet<double> listaKlasWzorcowych(List<double[]> lista)
@@ -62,24 +112,6 @@ namespace KNN
             return slownikOdleglowciZParametru;
         }
 
-        public List<double> wyznaczKlaseProbki(List<double[]> listaWzorcowa, List<double> probkaTestowa, Dictionary<double, double> slownikOdleglowciZParametru)
-        {
-            double[] minimalnaWartosc = new double[] { 10000, 10000 };
-
-
-            foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametru)
-            {
-                if (minimalnaWartosc[1] > u.Value)
-                {
-                    minimalnaWartosc[0] = u.Key;
-                    minimalnaWartosc[1] = u.Value;
-                    Console.WriteLine("minWartosc: " + minimalnaWartosc[1] + " " + minimalnaWartosc[0]);
-                }
-            }
-            probkaTestowa.Add(minimalnaWartosc[0]);
-
-            return probkaTestowa;
-        }
 
         public bool czyTakieSameWartosci(Dictionary<double, double> slownikOdleglowciZParametrem)
         {

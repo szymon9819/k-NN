@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace KNN
 {
     class Metryki
-    {
-        public double metrykaEuklidesowa(double[] probkaWzorcowa, List<double> probkaTestowa)
+    {      
+
+        public static double metrykaEuklidesowa(double[] probkaWzorcowa, List<double> probkaTestowa)
         {
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
@@ -19,7 +20,7 @@ namespace KNN
         }
 
 
-        public double metrykaCzebyszewa(double[] probkaWzorcowa, List<double> probkaTestowa)
+        public static double metrykaCzebyszewa(double[] probkaWzorcowa, List<double> probkaTestowa)
         {
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
@@ -31,7 +32,7 @@ namespace KNN
         }
 
 
-        public double metrykaLogarytmem(double[] probkaWzorcowa, List<double> probkaTestowa)
+        public static double metrykaLogarytmem(double[] probkaWzorcowa, List<double> probkaTestowa)
         {
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
@@ -42,7 +43,7 @@ namespace KNN
         }
 
 
-        public double metrykaManhattan(double[] probkaWzorcowa, List<double> probkaTestowa)
+        public static double metrykaManhattan(double[] probkaWzorcowa, List<double> probkaTestowa)
         {
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
@@ -53,8 +54,8 @@ namespace KNN
         }
 
 
-        public double metrykaMinkowskiego(double[] probkaWzorcowa, List<double> probkaTestowa, double p)
-        {
+        public static double metrykaMinkowskiego(double[] probkaWzorcowa, List<double> probkaTestowa, double p)
+        {          
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
             {
