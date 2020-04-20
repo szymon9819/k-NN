@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KNN.exe" size="24544">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KNN.exe" size="28640">
       <assemblyIdentity name="KNN" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ND+FSiSjsfC6qmKNK5vWumfMHSvy+1whLBNuXRx1J1Q=</dsig:DigestValue>
+        <dsig:DigestValue>y8vZy8OCg1vLmvktRDz2+CvlCFFKnQnOeSjrf+MsAFk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -18,19 +18,18 @@ namespace KNN
             InitializeComponent();
         }
 
-        Klasyfikator klasyfikator = new Klasyfikator();        
-        string sciezka = "";       
+        Klasyfikator klasyfikator = new Klasyfikator();
+        string sciezka = "";
         List<double[]> listaProbekZPliku = new List<double[]>();
-        HashSet<double> listaKlasProbkowych = new HashSet<double>();
         List<double> wprowadzonaProbka = new List<double>();
-        int parametr = 6;
         Dictionary<double, List<double>> slownikOdleglosci = new Dictionary<double, List<double>>();
         Dictionary<double, double> slownikOdleglowciZParametrem = new Dictionary<double, double>();
-        delegate double M(double[] probkaWzorcowa, List<double> probkaTestowa);
-        M metryka;      
+        HashSet<double> listaKlasProbkowych = new HashSet<double>();
 
-        //zmienne do aktywacji przycisku obliczajacego odległosć
-        bool kliknecie1, klikniecie2 = false;
+        int parametr = 3;
+        public delegate double M(double[] probkaWzorcowa, List<double> probkaTestowa);
+        M metryka = Metryki.metrykaEuklidesowa;
+
 
         private void wprowadzSciezkePlikuBtn_Click(object sender, EventArgs e)
         {
@@ -39,116 +38,80 @@ namespace KNN
             if (checkBox1.Checked)
                 klasyfikator.normalizuj(listaProbekZPliku);
 
-            listaKlasProbkowych = klasyfikator.listaKlasWzorcowych(listaProbekZPliku);
             //dodanie kolumn do tabeli wyswietlajacej dane z pliku
-            dodajKolumny(listaProbekZPliku);
-            dodajWiersz(listaProbekZPliku);
+            dodajKolumny(listaProbekZPliku, dataGridView1);
 
             this.wprowadzSciezkePlikuBtn.Enabled = false;
             this.wybierszPlikBtn.Enabled = false;
-            kliknecie1 = true;
 
-            if (kliknecie1 && klikniecie2)
-                this.obliczBtn.Enabled = true;
+            this.label1.Visible = true;
+            this.argument1.Visible = true;
+            this.wprowadzArgumentyBtn.Visible = true;
+            this.wyczyscProbkeBtn.Visible = true;
 
             this.checkBox1.Enabled = false;
+            this.wprowadzParametrBtn.Enabled = true;
+
+            this.jedenVsResztaBtn.Enabled = true;
+        }
+
+        private void wprowadzParametrBtn_Click(object sender, EventArgs e)
+        {
+            parametr = int.Parse(textBox1.Text);
+        }
+
+        private void wyczyscProbkeBtn_Click(object sender, EventArgs e)
+        {
+            wprowadzonaProbka.Clear();
+            this.wprowadzArgumentyBtn.Enabled = true;
+            // dataGridView2.Rows.Clear();
+            for (int i = 0; i < dataGridView2.Columns.Count; i++)
+                dataGridView2.Rows[0].Cells[i].Value = "";
         }
 
         private void wprowadzArgumentyBtn_Click(object sender, EventArgs e)
         {
-            wprowadzonaProbka.Clear();
             wprowadzonaProbka.Add(double.Parse(argument1.Text));
-            wprowadzonaProbka.Add(double.Parse(argument2.Text));
-            wprowadzonaProbka.Add(double.Parse(argument3.Text));
-            wprowadzonaProbka.Add(double.Parse(argument4.Text));
-                    
-            klikniecie2 = true;
-
-            if (kliknecie1 && klikniecie2)
-                this.obliczBtn.Enabled = true;
+            dataGridView2.Rows[0].Cells[wprowadzonaProbka.Count - 1].Value = argument1.Text;
+            argument1.Text = "";
+            if (wprowadzonaProbka.Count == listaProbekZPliku[0].Length - 1)
+                this.klasyfikujBtn.Enabled = true;
         }
 
-        private void obliczBtn_Click(object sender, EventArgs e)
+        private void parametrMetrykiMinkowskiegoBtn_Click(object sender, EventArgs e)
         {
-            this.klasyfikujBtn.Enabled = true;
-            
-            slownikOdleglosci = utworzSlownikOdleglosci(listaKlasProbkowych, listaProbekZPliku, wprowadzonaProbka);
-            foreach (KeyValuePair<double, List<double>> u in slownikOdleglosci)
+            Metryki.parametr_M = int.Parse(parametrMetrykiMinkowskiegoTextBox.Text);
+            Console.WriteLine(Metryki.parametr_M);
+        }
+
+        private double klasyfikuj(List<double[]> listaElementowOdczytanychZPliku, List<double> probkaTestowa, int parametr_k, M metryka)
+        {
+            slownikOdleglosci.Clear();
+            slownikOdleglowciZParametrem.Clear();
+            listaKlasProbkowych = klasyfikator.listaKlasWzorcowych(listaElementowOdczytanychZPliku);
+
+            foreach (double element in listaKlasProbkowych)
             {
-                Console.WriteLine("\n");
-                Console.WriteLine("Klasa = {0} ", u.Key);
-                foreach (double p in u.Value)
-                {
-                    Console.WriteLine("metryka: {0}", p);
-                }
+                //dodanie do słownika klass wzorcowych i pustej listy
+                slownikOdleglosci.Add(element, new List<double>());
+                foreach (double[] tablica in listaElementowOdczytanychZPliku)
+                    //dodanie do słownika odległości względem klasy
+                    if (element == tablica[tablica.Length - 1])
+                        slownikOdleglosci[element].Add(metryka(tablica, probkaTestowa));
+
+                //posotrowanie listy
+                slownikOdleglosci[element].Sort();
             }
 
-            slownikOdleglowciZParametrem = klasyfikator.utworzSlownikOdleglowciZParametru(listaKlasProbkowych, slownikOdleglosci, parametr);
-            foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametrem)
-            {
-                Console.WriteLine("Klasa = {0} odległosc: {1}", u.Key, u.Value);
-            }            
-             this.klasyfikujBtn.Enabled = true;                     
-        }
+            slownikOdleglowciZParametrem = klasyfikator.utworzSlownikOdleglowciZParametru(listaKlasProbkowych, slownikOdleglosci, parametr_k);
+            double klasa = klasyfikator.klasaZNajmniejszaOdlegloscia(slownikOdleglowciZParametrem);
 
+            dataGridView2.Rows[0].Cells[wprowadzonaProbka.Count].Value = klasa;
+            return klasa;
+        }
 
         private void klasyfikujBtn_Click(object sender, EventArgs e)
         {
-            //wyznaczenie klasy ktora ma najblizsza odleglosc
-            if (!klasyfikator.czyTakieSameWartosci(slownikOdleglowciZParametrem))
-            {
-                double klasa = 1;
-                double odleglosc = slownikOdleglowciZParametrem[klasa];
-
-                foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametrem)
-                {
-                    if (odleglosc > u.Value)
-                    {
-                        odleglosc = u.Value;
-                        klasa = u.Key;
-                    }
-                }
-                this.klasyfikujLabel.Text = "Klasa: " + klasa;
-            }
-            else
-                this.klasyfikujLabel.Text = "nie mozna sklasyfikowac probki";
-
-        }
-
-        private void dodajKolumny(List<double[]> listaProbekZPliku)
-        {
-            dataGridView1.ColumnCount = listaProbekZPliku[0].Length;
-            for (int i = 0; i < listaProbekZPliku[0].Length - 1; i++)
-            {
-                dataGridView1.Columns[i].Name = "arg " + i;
-            }            
-            dataGridView1.Columns[listaProbekZPliku[0].Length - 1].Name = "klasa";            
-        }
-
-        private void dodajWiersz(List<double[]> listaProbekZPliku)
-        {
-            foreach (double[] wiersz in listaProbekZPliku)
-            {
-                object[] obj = new object[wiersz.Length];
-
-                for (int i = 0; i < wiersz.Length; i++)
-                {
-                    obj[i] = wiersz[i];
-                }
-                //dodanie poszczegolnych wierszy
-                dataGridView1.Rows.Add(obj);
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(60)))));
-                    row.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
-                }
-            }
-        }
-
-        private Dictionary<double, List<double>> utworzSlownikOdleglosci(HashSet<double> listaKlasProbkowych, List<double[]> listaElementowOdczytanychZPliku, List<double> probkaTestowa)
-        {
-            Dictionary<double, List<double>> slownikOdleglosci = new Dictionary<double, List<double>>();
-
             if (this.radioLogarytmem.Checked)
                 metryka = Metryki.metrykaLogarytmem;
             else if (this.radioCzebyszewa.Checked)
@@ -157,27 +120,78 @@ namespace KNN
                 metryka = Metryki.metrykaEuklidesowa;
             else if (this.radioManhattan.Checked)
                 metryka = Metryki.metrykaManhattan;
+            else if (this.radioMinkowskiego.Checked)
+                metryka = Metryki.metrykaMinkowskiego;
 
-            foreach (double element in listaKlasProbkowych)
+            double klasa = klasyfikuj(listaProbekZPliku, wprowadzonaProbka, parametr, metryka);
+            //wyznaczenie klasy ktora ma najblizsza odleglosc
+            if (klasa != 0.1)
             {
-                //dodanie do słownika klass wzorcowych i pustej listy
-                slownikOdleglosci.Add(element, new List<double>());
-                foreach (double[] tablica in listaElementowOdczytanychZPliku)
-                {
-                    //dodanie do słownika odległości względem klasy
-                    if (element == tablica[tablica.Length - 1])
-                    {                        
-                        if (this.radioMinkowskiego.Checked)
-                            slownikOdleglosci[element].Add(Metryki.metrykaMinkowskiego(tablica, probkaTestowa,3));
-                        else
-                            slownikOdleglosci[element].Add(metryka(tablica, probkaTestowa));
-                    }
-                }
-                //posotrowanie listy
-                slownikOdleglosci[element].Sort();
+                this.klasyfikujLabel.Text = "Klasa: " + klasa;
             }
-            return slownikOdleglosci;
+            else
+                this.klasyfikujLabel.Text = "nie mozna sklasyfikowac probki";
         }
+
+        private void jedenVsResztaBtn_Click(object sender, EventArgs e)
+        {
+            for (int j = 0; j < dataGridView3.Rows.Count - 1; j++)
+                dataGridView3.Rows[j].Cells[listaProbekZPliku[j].Length].Value = klasyfikuj(listaProbekZPliku, listaProbekZPliku[j].ToList(), parametr, metryka);
+
+            this.dokladnoscLabel.Text = "Dokładność 1 vs reszta: " + dokladnoscKlasyfikacji(dataGridView3).ToString() + " %"; ;
+        }
+
+        private double dokladnoscKlasyfikacji(DataGridView dataGridView)
+        {
+            double dokladnosc = 0;
+
+            for (int j = 0; j < dataGridView.Rows.Count - 1; j++)
+                if (dataGridView.Rows[j].Cells[listaProbekZPliku[j].Length].Value.Equals(dataGridView.Rows[j].Cells[listaProbekZPliku[j].Length - 1].Value))
+                    dokladnosc += 1;
+            return Math.Round((dokladnosc / (dataGridView.Rows.Count - 1)) * 100, 3);
+        }
+
+        private void dodajKolumny(List<double[]> listaProbekZPliku, DataGridView dataGridView)
+        {
+            dataGridView.ColumnCount = listaProbekZPliku[0].Length;
+            dataGridView2.ColumnCount = listaProbekZPliku[0].Length;
+            dataGridView3.ColumnCount = listaProbekZPliku[0].Length + 1;
+            for (int i = 0; i < listaProbekZPliku[0].Length - 1; i++)
+            {
+                dataGridView.Columns[i].Name = "arg " + i;
+                dataGridView2.Columns[i].Name = "arg " + i;
+                dataGridView3.Columns[i].Name = "arg " + i;
+            }
+            dataGridView2.Rows[0].DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(60)))));
+            dataGridView2.Rows[0].DefaultCellStyle.ForeColor = System.Drawing.Color.White;
+            dataGridView.Columns[listaProbekZPliku[0].Length - 1].Name = "klasa";
+            dataGridView3.Columns[listaProbekZPliku[0].Length - 1].Name = "klasa";
+            dataGridView3.Columns[listaProbekZPliku[0].Length].Name = "klasa 1vsreszta";
+            dataGridView2.Columns[listaProbekZPliku[0].Length - 1].Name = "klasa";
+            dodajWiersz(listaProbekZPliku, dataGridView);
+            dodajWiersz(listaProbekZPliku, dataGridView3);
+        }
+
+        private void dodajWiersz(List<double[]> lista, DataGridView dataGridView)
+        {
+            foreach (double[] wiersz in lista)
+            {
+                object[] obj = new object[wiersz.Length];
+
+                for (int i = 0; i < wiersz.Length; i++)
+                {
+                    obj[i] = wiersz[i];
+                }
+                //dodanie poszczegolnych wierszy
+                dataGridView.Rows.Add(obj);
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(60)))));
+                    row.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
+                }
+            }
+        }
+
 
         //walidacja do wprowadzania tylko liczb
         private void argument1_KeyPress(object sender, KeyPressEventArgs e)
@@ -195,59 +209,31 @@ namespace KNN
             }
         }
 
-        private void argument2_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             char wprowadzonaLiczba = e.KeyChar;
-            if (wprowadzonaLiczba == 44 && argument2.Text.IndexOf(',') != -1)
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if (!Char.IsDigit(wprowadzonaLiczba) && wprowadzonaLiczba != 8 && wprowadzonaLiczba != 44)
+            if (!Char.IsDigit(wprowadzonaLiczba) && wprowadzonaLiczba != 8)
             {
                 e.Handled = true;
             }
         }
 
-        private void argument3_KeyPress(object sender, KeyPressEventArgs e)
+        private void parametrMetrykiMinkowskiegoTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             char wprowadzonaLiczba = e.KeyChar;
-            if (wprowadzonaLiczba == 44 && argument3.Text.IndexOf(',') != -1)
-            {
-                e.Handled = true;              
-                return;
-            }
-
-            if (!Char.IsDigit(wprowadzonaLiczba) && wprowadzonaLiczba != 8 && wprowadzonaLiczba != 44)
+            if (!Char.IsDigit(wprowadzonaLiczba) && wprowadzonaLiczba != 8)
             {
                 e.Handled = true;
             }
         }
-
-        private void argument4_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char wprowadzonaLiczba = e.KeyChar;
-            if (wprowadzonaLiczba == 44 && argument4.Text.IndexOf(',') != -1)
-            {
-                e.Handled = true;               
-                return;
-            }
-
-            if (!Char.IsDigit(wprowadzonaLiczba) && wprowadzonaLiczba != 8 && wprowadzonaLiczba != 44)
-            {
-                e.Handled = true;
-            }
-        }
-
 
         //wybor pliku za pomocą okienka
         private void wybierszPlikBtn_Click(object sender, EventArgs e)
-        {           
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Wybierz plik z próbkami";
-           
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (Path.GetExtension(openFileDialog.FileName) != ".txt")
                 {
@@ -259,46 +245,54 @@ namespace KNN
             }
         }
 
-
         //aktywowanie przycisku po wpisaniu argumentów
         private void argument1_TextChanged(object sender, EventArgs e)
         {
-            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
-                this.wprowadzArgumentyBtn.Enabled = true;
+            if (wprowadzonaProbka.Count != listaProbekZPliku[0].Length - 1 && !this.wprowadzSciezkePlikuBtn.Enabled)
+            {
+                if (argument1.Text != "")
+                    this.wprowadzArgumentyBtn.Enabled = true;
+                else
+                    this.wprowadzArgumentyBtn.Enabled = false;
+            }
             else
                 this.wprowadzArgumentyBtn.Enabled = false;
+
         }
 
-        private void argument2_TextChanged(object sender, EventArgs e)
+        private void radioMinkowskiego_CheckedChanged(object sender, EventArgs e)
         {
-            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
-                this.wprowadzArgumentyBtn.Enabled = true;
+            if (radioMinkowskiego.Checked)
+            {
+                this.parametrMetrykiMinkowskiegoBtn.Enabled = true;
+                this.label6.Visible = true;
+                this.parametrMetrykiMinkowskiegoTextBox.Visible = true;
+                this.parametrMetrykiMinkowskiegoBtn.Visible = true;
+            }
             else
-                this.wprowadzArgumentyBtn.Enabled = false;
+            {
+                this.parametrMetrykiMinkowskiegoBtn.Enabled = false;
+                this.parametrMetrykiMinkowskiegoBtn.Enabled = false;
+                this.label6.Visible = false;
+                this.parametrMetrykiMinkowskiegoTextBox.Visible = false;
+                this.parametrMetrykiMinkowskiegoBtn.Visible = false;
+            }
         }
 
-        private void argument3_TextChanged(object sender, EventArgs e)
+        private void argument1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
-                this.wprowadzArgumentyBtn.Enabled = true;
-            else
-                this.wprowadzArgumentyBtn.Enabled = false;
+            if (e.KeyCode == Keys.Enter && wprowadzArgumentyBtn.Enabled)
+                wprowadzArgumentyBtn_Click(this, new EventArgs());
         }
-
-        private void argument4_TextChanged(object sender, EventArgs e)
-        {
-            if (argument1.Text != "" && argument2.Text != "" && argument3.Text != "" && argument4.Text != "")
-                this.wprowadzArgumentyBtn.Enabled = true;
-            else
-                this.wprowadzArgumentyBtn.Enabled = false;
-        }     
 
         private void sciezkaPliku_TextChanged(object sender, EventArgs e)
-        {           
+        {
             if (sciezkaPliku.Text.Trim() == "")
                 this.wprowadzSciezkePlikuBtn.Enabled = false;
             else
                 this.wprowadzSciezkePlikuBtn.Enabled = true;
         }
+
+
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace KNN
 {
     class Metryki
-    {      
-
+    {
+        public static int parametr_M=2;
         public static double metrykaEuklidesowa(double[] probkaWzorcowa, List<double> probkaTestowa)
         {
             double suma = 0;
@@ -54,14 +54,14 @@ namespace KNN
         }
 
 
-        public static double metrykaMinkowskiego(double[] probkaWzorcowa, List<double> probkaTestowa, double p)
+        public static double metrykaMinkowskiego(double[] probkaWzorcowa, List<double> probkaTestowa)
         {          
             double suma = 0;
             for (int i = 0; i < probkaTestowa.Count; i++)
             {
-                suma += Math.Abs( Math.Pow( (probkaTestowa[i] - probkaWzorcowa[i]),p));
+                suma += Math.Abs( Math.Pow( (probkaTestowa[i] - probkaWzorcowa[i]), parametr_M));
             }
-            return Math.Pow(suma,1/p);
+            return Math.Pow(suma,1/ parametr_M);
         }
     }
 }
