@@ -138,27 +138,5 @@ namespace KNN
 
             return klasa;
         }
-
-        public bool czyTakieSameWartosci(Dictionary<double, double> slownikOdleglowciZParametrem)
-        {
-            double klucz = slownikOdleglowciZParametrem.Keys.First();
-            double wartosc = slownikOdleglowciZParametrem[klucz];
-
-            foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametrem)
-            {
-                if (u.Value < wartosc)
-                {
-                    klucz = u.Key;
-                    wartosc = u.Value;
-                }
-            }
-
-            foreach (KeyValuePair<double, double> u in slownikOdleglowciZParametrem)
-            {
-                if (slownikOdleglowciZParametrem[klucz] == u.Value && klucz != u.Key)
-                    return true;
-            }
-            return false;
-        }
     }
 }
